@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.db.models import CASCADE, Model, OneToOneField, TextField
+from django.db.models import CASCADE, Model, OneToOneField, TextField, BooleanField
+from django.db import models
 
 
 class Profile(Model):
@@ -11,3 +12,12 @@ class Profile(Model):
 
 
 
+class AdminRequestMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_requests')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    # Câmp nou pentru aprobarea mesajului
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Message from {self.user.username} at {self.created_at}"

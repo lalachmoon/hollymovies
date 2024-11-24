@@ -8,7 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from viewer.forms import MovieForm
 from viewer.mixins import StaffRequiredMixin
-from viewer.models import Movie, Genre
+from viewer.models import Movie, Genre, Actor
+
 
 # Create your views here.
 # class MoviesView(View):
@@ -47,6 +48,12 @@ class GenreMoviesView(ListView):
         qs = super().get_queryset()
         genre = Genre.objects.get(name=self.kwargs['genre_name'])
         return qs.filter(genre=genre)
+
+
+class ActorDetailView(DetailView):
+    template_name = 'actor_detail.html'
+    model = Actor
+
 
 class MovieCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'form.html'
